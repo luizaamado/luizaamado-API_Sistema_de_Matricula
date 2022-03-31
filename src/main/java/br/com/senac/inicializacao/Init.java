@@ -8,6 +8,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import br.com.senac.entity.Aluno;
+import br.com.senac.entity.AlunoDisciplina;
+import br.com.senac.entity.Avaliacao;
 import br.com.senac.entity.Disciplina;
 import br.com.senac.entity.Professor;
 import br.com.senac.entity.Turma;
@@ -15,6 +17,7 @@ import br.com.senac.repository.AlunoRepository;
 import br.com.senac.repository.DisciplinaRepository;
 import br.com.senac.repository.ProfessorRepository;
 import br.com.senac.repository.TurmaRepository;
+import br.com.senac.service.AvaliacaoService;
 
 @Component
 public class Init implements ApplicationListener<ContextRefreshedEvent>{
@@ -30,6 +33,9 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>{
 	
 	@Autowired
 	TurmaRepository turmaRepo;
+	
+	@Autowired
+	AvaliacaoService avaliacaoService;
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -106,9 +112,25 @@ public class Init implements ApplicationListener<ContextRefreshedEvent>{
 		
 		professorRepo.saveAll(Arrays.asList(professor1, professor2, professor3, professor4));
 		
+		Avaliacao avaliacaoAluno1 = new Avaliacao();
 		
+		AlunoDisciplina alunoDisciplina1 = new AlunoDisciplina();
+		alunoDisciplina1.setAluno(aluno1);
+		alunoDisciplina1.setDisciplina(disciplina3);
+		
+		avaliacaoAluno1.setAlunoDisciplina(alunoDisciplina1);
+		avaliacaoAluno1.setConceito("A");
+		avaliacaoService.save(avaliacaoAluno1);
+		
+		Avaliacao avaliacaoAluno2 = new Avaliacao();
+		
+		AlunoDisciplina alunoDisciplina2 = new AlunoDisciplina();
+		alunoDisciplina2.setAluno(aluno2);
+		alunoDisciplina2.setDisciplina(disciplina2);
+		
+		avaliacaoAluno2.setAlunoDisciplina(alunoDisciplina2);
+		avaliacaoAluno2.setConceito("B");
+		avaliacaoService.save(avaliacaoAluno2);
 	}
 	
-	
-
 }
